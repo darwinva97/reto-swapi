@@ -1,0 +1,132 @@
+translate:
+  handler: src/index.apiTranslate
+  name: translate
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /translate/{resource}/{id}
+        method: GET
+        cors:
+          origins:
+            - "*"
+    - http:
+        path: /translate/{resource}
+        method: GET
+        cors:
+          origins:
+            - "*"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "translate:TranslateText"
+      Resource: "*"
+
+createPerson:
+  handler: src/index.apiCreatePerson
+  name: create-person
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /person
+        method: POST
+        bodyType: "DtoCreatePerson"
+        responseData:
+          200:
+            description: "Person created"
+            bodyType: "ResponseCreatePerson"
+        cors:
+          origins:
+            - "*"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:Scan"
+      Resource: !GetAtt PersonsTable.Arn
+
+getAllPersons:
+  handler: src/index.apiGetAllPersons
+  name: get-all-persons
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /person
+        method: GET
+        cors:
+          origins:
+            - "*"
+        responseData:
+          200:
+            description: "List of persons"
+            bodyType: "ResponsePersons"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:Scan"
+      Resource: !GetAtt PersonsTable.Arn
+
+getPerson:
+  handler: src/index.apiGetPerson
+  name: get-person
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /person/{personId}
+        method: GET
+        cors:
+          origins:
+            - "*"
+        responseData:
+          200:
+            description: "Person"
+            bodyType: "ResponsePerson"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+      Resource: !GetAtt PersonsTable.Arn
+
+deletePerson:
+  handler: src/index.apiDeletePerson
+  name: delete-person
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /person/{personId}
+        method: DELETE
+        cors:
+          origins:
+            - "*"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:DeleteItem"
+      Resource: !GetAtt PersonsTable.Arn
+
+updatePerson:
+  handler: src/index.apiUpdatePerson
+  name: update-person
+  memorySize: 256
+  timeout: 30
+  events:
+    - http:
+        path: /person/{personId}
+        method: PUT
+        bodyType: "DtoUpdatePerson"
+        responseData:
+          200:
+            description: "Person updated"
+            bodyType: "ResponseUpdatePerson"
+        cors:
+          origins:
+            - "*"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:UpdateItem"
+      Resource: !GetAtt PersonsTable.Arn

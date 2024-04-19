@@ -1,0 +1,58 @@
+service: reto-starwars
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+plugins:
+  - serverless-auto-swagger
+  - serverless-dynamodb
+  - serverless-offline
+  - serverless-iam-roles-per-function
+  - serverless-esbuild
+  - serverless-jest-plugin
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${env:STAGE, 'dev'}
+  region: ${env:AWS_REGION}
+  environment:
+    DYNAMODB_TABLE_NAME: ${self:custom.personsTableName}
+
+custom:
+  dotenv:
+    path: /.env
+  esbuild:
+    packager: yarn
+    bundle: true
+    minify: false
+    watch:
+      pattern: ["./index.ts", "src/**/*.ts"]
+      ignore: [".serverless/**/*", ".build"]
+  personsTableName: ${env:DYNAMODB_TABLE_NAME} # persons-table-${self:provider.stage}
+  serverless-dynamodb:
+    stages:
+      - dev
+    start:
+      docker: false
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+  serverless-offline:
+    resourceRoutes: true # HTTP proxy
+  autoswagger:
+    title: "SWAPI Translated"
+    apiType: "http"
+    generateSwaggerOnDeploy: true
+    basePath: /${self:provider.stage}
+    schemes: ["https", "http"]
+    useRedirectUI: true
+
+functions: ${file(./resources/functions.yml)}
+
+resources:
+  - ${file(./resources/function-roles.yml)}

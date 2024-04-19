@@ -1,0 +1,14 @@
+Resources:
+  PersonsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.personsTableName}
+      AttributeDefinitions:
+        - AttributeName: personId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: personId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
