@@ -223,6 +223,16 @@ Hay 10 endpoints:
   <br />
   DELETE https://r3g2bsk9l6.execute-api.us-east-2.amazonaws.com/dev/person/89
 
+
+## Características adicionales
+
+Se implemetó Swagger Documentation, Unit Test, AWS Translate, dynamodb local, lambda local entre otras cosas.
+Este proyecto parece cumplir con todos los checks requeridos y opcionales, menos el último puntos bonus.
+Se adjunta imagen (status.jpeg)
+
+![Status](./status.jpeg)
+
+
 ## Mensaje final
 
 Parece una difícil decisión estructurar el proyecto con la arquitectura de capas y dominio. El motivo es que como es un proyecto pequeño (como cualquier lambda) es que no merecía tanto la pena dicha implementación. Sin embargo, se hizo un esfuerzo para mantener desacoplado el dominio de la infra.
@@ -230,5 +240,5 @@ Parece una difícil decisión estructurar el proyecto con la arquitectura de cap
 PD: Disfruté mucho desarrollando la prueba técnica, espero que se note en este proyecto. ✨
 
 Muchas gracias por la oportunidad 😃!
-<br />
-Saludos Team Rímac! 😊
+
+# Saludos Team Rímac! 😊
