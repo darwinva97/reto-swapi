@@ -2,7 +2,7 @@
 
 Este proyecto está desplegado en AWS con serverless framework y tiene como url base el siguiente:
 <br />
-https://r3g2bsk9l6.execute-api.us-east-2.amazonaws.com/dev
+https://r3g2bsk9l6.execute-api.us-east-2.amazonaws.com/dev/swagger
 
 ## Inicio
 
